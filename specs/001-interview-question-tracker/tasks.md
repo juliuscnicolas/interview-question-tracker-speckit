@@ -3,7 +3,7 @@
 **Input**: Design documents from `/specs/001-interview-question-tracker/`
 **Prerequisites**: plan.md (required), spec.md (required), research.md, data-model.md, quickstart.md
 
-**Tests**: Not requested in feature specification. No test tasks included.
+**Tests**: Vitest + Vue Test Utils + happy-dom (61 tests across 7 test files).
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -141,6 +141,23 @@
 - [X] T024 [P] Add responsive Tailwind CSS classes to all components for mobile support (320px minimum) across src/components/
 - [X] T025 [P] Handle edge cases: long question text wrapping, plain text stripping on paste, localStorage full error display in src/components/QuestionForm.vue and src/composables/useLocalStorage.js
 - [X] T026 Run quickstart.md validation — verify npm install, npm run dev, npm run build all work correctly
+
+---
+
+## Phase 10: Testing
+
+**Purpose**: Unit and component tests for all application logic and UI components
+
+- [X] T027 Install Vitest 2, @vue/test-utils, happy-dom and configure test environment in vite.config.js
+- [X] T028 [P] Unit tests for categories constant and getCategoryBadgeClass helper in src/constants/categories.test.js (5 tests)
+- [X] T029 [P] Unit tests for useLocalStorage composable — load, save, corrupted JSON, reactivity in src/composables/useLocalStorage.test.js (5 tests)
+- [X] T030 [P] Unit tests for useQuestions composable — CRUD, validation, filtering, sorting, HTML stripping in src/composables/useQuestions.test.js (19 tests)
+- [X] T031 [P] Component tests for QuestionForm — add/edit modes, validation, emit save/cancel in src/components/QuestionForm.test.js (12 tests)
+- [X] T032 [P] Component tests for QuestionCard — display, notes visibility, edit/delete emit in src/components/QuestionCard.test.js (7 tests)
+- [X] T033 [P] Component tests for CategoryFilter — rendering, active state, emit filter changes in src/components/CategoryFilter.test.js (6 tests)
+- [X] T034 [P] Component tests for QuestionList + EmptyState — empty/populated states, event bubbling in src/components/QuestionList.test.js (7 tests)
+
+**Checkpoint**: All 61 tests passing — full unit and component test coverage
 
 ---
 
