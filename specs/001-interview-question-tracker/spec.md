@@ -128,13 +128,23 @@ A user wants to access their interview question tracker from any device via a pu
 - What happens when two browser tabs are open simultaneously? Changes in one tab may not reflect in the other until refresh. This is acceptable for a single-user client-side application.
 - What happens when the user pastes formatted text (HTML/rich text) into the question field? The application should strip formatting and store plain text only.
 
+## Clarifications
+
+### Session 2026-03-17
+
+- Q: What build tool and CSS approach should this project use? → A: Vite + Tailwind CSS
+- Q: What layout should the question list use? → A: Card list (each question in a card with category badge, date, action buttons)
+- Q: What should the default sort order for questions be? → A: Newest first (most recently added at the top)
+- Q: Should questions support an optional answer/notes field? → A: Yes, add an optional notes/answer field per question
+- Q: How should the app be deployed to GitHub Pages? → A: Automated via GitHub Actions workflow (deploy on push to main)
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: System MUST allow users to create a new interview question with a text field and a category selection.
+- **FR-001**: System MUST allow users to create a new interview question with a text field, a category selection, and an optional notes/answer field.
 - **FR-002**: System MUST provide exactly six predefined categories: Frontend, Backend, Vue, React, .NET, and Others.
-- **FR-003**: System MUST display all saved questions in a list showing question text, category, and date added.
+- **FR-003**: System MUST display all saved questions in a card-based list layout, with each card showing question text, a category badge, date added, and action buttons for edit and delete.
 - **FR-004**: System MUST allow users to edit the text and category of any existing question.
 - **FR-005**: System MUST allow users to delete any existing question after a confirmation prompt.
 - **FR-006**: System MUST persist all question data in the browser's local storage so data survives page refreshes and browser restarts.
@@ -143,14 +153,16 @@ A user wants to access their interview question tracker from any device via a pu
 - **FR-009**: System MUST allow users to filter the question list by category.
 - **FR-010**: System MUST allow users to clear filters and view all questions.
 - **FR-011**: System MUST display an empty state message when no questions exist or no questions match the active filter.
-- **FR-012**: System MUST be deployed and accessible via a public URL hosted on GitHub Pages.
+- **FR-012**: System MUST be deployed and accessible via a public URL hosted on GitHub Pages, with automated deployment via a GitHub Actions workflow triggered on push to the main branch.
 - **FR-013**: System MUST be responsive and usable on both desktop and mobile screen sizes.
 - **FR-014**: System MUST assign a unique identifier to each question to support edit and delete operations.
 - **FR-015**: System MUST record the date each question was added and display it in the question list.
+- **FR-016**: System MUST display questions sorted by date added in descending order (newest first) by default.
+- **FR-017**: System MUST support an optional notes/answer text field on each question, displayed on the question card and editable via the edit form.
 
 ### Key Entities
 
-- **Question**: Represents a single interview question. Attributes include: unique identifier, question text, category, and date added.
+- **Question**: Represents a single interview question. Attributes include: unique identifier, question text, category, optional notes/answer text, and date added.
 - **Category**: A classification label for a question. Fixed set of values: Frontend, Backend, Vue, React, .NET, Others. A question belongs to exactly one category.
 
 ## Success Criteria *(mandatory)*
@@ -173,4 +185,6 @@ A user wants to access their interview question tracker from any device via a pu
 - The six categories (Frontend, Backend, Vue, React, .NET, Others) are fixed and do not need to be user-configurable.
 - The application targets modern evergreen browsers; legacy browser support (IE11) is not required.
 - GitHub Pages is the deployment target, meaning the app must be a static site with no server-side rendering requirements.
+- Deployment to GitHub Pages is automated via a GitHub Actions CI/CD workflow that builds and deploys on push to the main branch.
 - No search functionality beyond category filtering is required at this stage.
+- The project uses Vite as the build tool and Tailwind CSS for styling with Vue 3 scoped component patterns.
