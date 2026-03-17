@@ -19,10 +19,10 @@
 
 **Purpose**: Scaffold Vue 3 + Vite + Tailwind CSS project and configure tooling
 
-- [ ] T001 Scaffold Vue 3 project with Vite using create-vue in project root (package.json, vite.config.js, src/main.js, src/App.vue, index.html)
-- [ ] T002 Install and configure Tailwind CSS 3 via @tailwindcss/vite plugin in vite.config.js and add Tailwind directives to src/style.css
-- [ ] T003 [P] Configure Vite base path for GitHub Pages in vite.config.js (set base to repository name)
-- [ ] T004 [P] Create project directory structure: src/components/, src/composables/, src/constants/
+- [X] T001 Scaffold Vue 3 project with Vite using create-vue in project root (package.json, vite.config.js, src/main.js, src/App.vue, index.html)
+- [X] T002 Install and configure Tailwind CSS 3 via @tailwindcss/vite plugin in vite.config.js and add Tailwind directives to src/style.css
+- [X] T003 [P] Configure Vite base path for GitHub Pages in vite.config.js (set base to repository name)
+- [X] T004 [P] Create project directory structure: src/components/, src/composables/, src/constants/
 
 ---
 
@@ -32,9 +32,9 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Define categories constant with values and Tailwind badge color mappings in src/constants/categories.js
-- [ ] T006 Implement useLocalStorage composable with JSON get/set and reactive watch sync in src/composables/useLocalStorage.js
-- [ ] T007 Implement useQuestions composable with reactive questions array, add/update/delete/filter methods using useLocalStorage in src/composables/useQuestions.js
+- [X] T005 Define categories constant with values and Tailwind badge color mappings in src/constants/categories.js
+- [X] T006 Implement useLocalStorage composable with JSON get/set and reactive watch sync in src/composables/useLocalStorage.js
+- [X] T007 Implement useQuestions composable with reactive questions array, add/update/delete/filter methods using useLocalStorage in src/composables/useQuestions.js
 
 **Checkpoint**: Foundation ready — all CRUD logic and persistence available for components
 
@@ -48,11 +48,11 @@
 
 ### Implementation
 
-- [ ] T008 [P] [US1] Create QuestionForm component with text input, category dropdown, optional notes textarea, validation, and save/cancel actions in src/components/QuestionForm.vue
-- [ ] T009 [P] [US2] Create QuestionCard component displaying question text, category badge (colored per data-model), notes (if present), date added, and edit/delete action buttons in src/components/QuestionCard.vue
-- [ ] T010 [P] [US2] Create EmptyState component with message and call-to-action when no questions exist in src/components/EmptyState.vue
-- [ ] T011 [US2] Create QuestionList component that renders QuestionCard items sorted by createdAt descending, or EmptyState when empty, in src/components/QuestionList.vue
-- [ ] T012 [US1] Wire App.vue to display header, inline QuestionForm (add mode) at top, and QuestionList below, connecting useQuestions composable in src/App.vue
+- [X] T008 [P] [US1] Create QuestionForm component with text input, category dropdown, optional notes textarea, validation, and save/cancel actions in src/components/QuestionForm.vue
+- [X] T009 [P] [US2] Create QuestionCard component displaying question text, category badge (colored per data-model), notes (if present), date added, and edit/delete action buttons in src/components/QuestionCard.vue
+- [X] T010 [P] [US2] Create EmptyState component with message and call-to-action when no questions exist in src/components/EmptyState.vue
+- [X] T011 [US2] Create QuestionList component that renders QuestionCard items sorted by createdAt descending, or EmptyState when empty, in src/components/QuestionList.vue
+- [X] T012 [US1] Wire App.vue to display header, inline QuestionForm (add mode) at top, and QuestionList below, connecting useQuestions composable in src/App.vue
 
 **Checkpoint**: User Story 1 + 2 fully functional — users can add and view questions with persistence
 
@@ -66,9 +66,9 @@
 
 ### Implementation
 
-- [ ] T013 [US3] Add edit-mode support to QuestionForm component (accept existing question as prop, pre-fill fields, emit update event) in src/components/QuestionForm.vue
-- [ ] T014 [US3] Create modal/overlay wrapper for edit form display in src/components/QuestionForm.vue or src/App.vue
-- [ ] T015 [US3] Wire edit button in QuestionCard to open edit modal with selected question data, connect update handler to useQuestions.updateQuestion in src/App.vue
+- [X] T013 [US3] Add edit-mode support to QuestionForm component (accept existing question as prop, pre-fill fields, emit update event) in src/components/QuestionForm.vue
+- [X] T014 [US3] Create modal/overlay wrapper for edit form display in src/components/QuestionForm.vue or src/App.vue
+- [X] T015 [US3] Wire edit button in QuestionCard to open edit modal with selected question data, connect update handler to useQuestions.updateQuestion in src/App.vue
 
 **Checkpoint**: User Story 3 complete — full add + view + edit workflow operational
 
@@ -82,8 +82,8 @@
 
 ### Implementation
 
-- [ ] T016 [P] [US4] Create ConfirmDialog component with message, confirm button, and cancel button in src/components/ConfirmDialog.vue
-- [ ] T017 [US4] Wire delete button in QuestionCard to show ConfirmDialog, and connect confirm action to useQuestions.deleteQuestion in src/App.vue
+- [X] T016 [P] [US4] Create ConfirmDialog component with message, confirm button, and cancel button in src/components/ConfirmDialog.vue
+- [X] T017 [US4] Wire delete button in QuestionCard to show ConfirmDialog, and connect confirm action to useQuestions.deleteQuestion in src/App.vue
 
 **Checkpoint**: User Story 4 complete — full CRUD lifecycle operational
 
@@ -97,7 +97,7 @@
 
 ### Implementation
 
-- [ ] T018 [US6] Verify useLocalStorage composable correctly syncs all CRUD operations to localStorage key "interview-questions" — add error handling for localStorage full scenario in src/composables/useLocalStorage.js
+- [X] T018 [US6] Verify useLocalStorage composable correctly syncs all CRUD operations to localStorage key "interview-questions" — add error handling for localStorage full scenario in src/composables/useLocalStorage.js
 
 **Checkpoint**: User Story 6 complete — data persistence verified for all operations
 
@@ -111,9 +111,9 @@
 
 ### Implementation
 
-- [ ] T019 [P] [US5] Create CategoryFilter component with "All" option and one button/tab per category in src/components/CategoryFilter.vue
-- [ ] T020 [US5] Wire CategoryFilter into App.vue above QuestionList, connect selected filter to useQuestions.filteredQuestions computed property in src/App.vue
-- [ ] T021 [US5] Update EmptyState to show filter-specific message when no questions match active category filter in src/components/EmptyState.vue
+- [X] T019 [P] [US5] Create CategoryFilter component with "All" option and one button/tab per category in src/components/CategoryFilter.vue
+- [X] T020 [US5] Wire CategoryFilter into App.vue above QuestionList, connect selected filter to useQuestions.filteredQuestions computed property in src/App.vue
+- [X] T021 [US5] Update EmptyState to show filter-specific message when no questions match active category filter in src/components/EmptyState.vue
 
 **Checkpoint**: User Story 5 complete — category filtering with empty state feedback operational
 
@@ -127,8 +127,8 @@
 
 ### Implementation
 
-- [ ] T022 [US7] Create GitHub Actions workflow for automated build and deploy to GitHub Pages in .github/workflows/deploy.yml
-- [ ] T023 [US7] Verify vite.config.js base path is correct for GitHub Pages deployment and add responsive meta viewport tag in index.html
+- [X] T022 [US7] Create GitHub Actions workflow for automated build and deploy to GitHub Pages in .github/workflows/deploy.yml
+- [X] T023 [US7] Verify vite.config.js base path is correct for GitHub Pages deployment and add responsive meta viewport tag in index.html
 
 **Checkpoint**: User Story 7 complete — app live and accessible via public URL
 
@@ -138,9 +138,9 @@
 
 **Purpose**: Responsive design, edge cases, and final quality pass
 
-- [ ] T024 [P] Add responsive Tailwind CSS classes to all components for mobile support (320px minimum) across src/components/
-- [ ] T025 [P] Handle edge cases: long question text wrapping, plain text stripping on paste, localStorage full error display in src/components/QuestionForm.vue and src/composables/useLocalStorage.js
-- [ ] T026 Run quickstart.md validation — verify npm install, npm run dev, npm run build all work correctly
+- [X] T024 [P] Add responsive Tailwind CSS classes to all components for mobile support (320px minimum) across src/components/
+- [X] T025 [P] Handle edge cases: long question text wrapping, plain text stripping on paste, localStorage full error display in src/components/QuestionForm.vue and src/composables/useLocalStorage.js
+- [X] T026 Run quickstart.md validation — verify npm install, npm run dev, npm run build all work correctly
 
 ---
 
