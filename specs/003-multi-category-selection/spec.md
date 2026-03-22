@@ -81,6 +81,12 @@ A user who has existing questions saved with a single category opens the applica
 - What happens when existing local storage data has the old single-category format (a string) and the new format expects multiple categories (a list)? The system should gracefully handle migration, treating the single value as a list of one.
 - What happens when a question with multiple categories is displayed on a narrow mobile screen? Category badges should wrap to a new line rather than overflow or be truncated.
 
+## Clarifications
+
+### Session 2026-03-22
+
+- Q: What UI control type should the multi-category selector use? → A: Toggle buttons/pills (inline clickable buttons that highlight when selected)
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -93,7 +99,7 @@ A user who has existing questions saved with a single category opens the applica
 - **FR-006**: System MUST support filtering by a single category, showing all questions that include the selected category among their assigned categories.
 - **FR-007**: System MUST gracefully handle existing question data that uses the old single-category format, treating it as a list containing one category without data loss.
 - **FR-008**: System MUST allow users to deselect categories in the selector, as long as at least one remains selected at save time.
-- **FR-009**: System MUST visually indicate which categories are currently selected in the multi-select category control.
+- **FR-009**: System MUST present categories as inline toggle buttons/pills that visually highlight when selected, providing clear indication of the current selection state.
 - **FR-010**: System MUST wrap category badges on question cards when there is insufficient horizontal space, rather than overflowing or truncating.
 
 ### Key Entities
@@ -117,5 +123,5 @@ A user who has existing questions saved with a single category opens the applica
 - The predefined category list (Frontend, Backend, Vue, React, .NET, Others) remains unchanged; no new categories are being added as part of this feature.
 - The existing category filter (single-category filter) continues to work as a single-select filter; multi-category filtering (e.g., "show questions that are both Vue AND Frontend") is not required at this stage.
 - Backward compatibility with existing local storage data is handled by treating a single category string as a list of one — no manual data migration is required from users.
-- The multi-category selector replaces the current single-select dropdown; both the add and edit forms are updated.
+- The multi-category selector replaces the current single-select dropdown with inline toggle buttons/pills; both the add and edit forms are updated.
 - No maximum limit on the number of categories per question beyond the natural limit of six (the total number of available categories).
