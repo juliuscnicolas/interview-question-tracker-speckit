@@ -9,10 +9,10 @@ describe('QuestionForm', () => {
       expect(wrapper.find('h2').text()).toBe('Add New Question')
     })
 
-    it('renders all 6 category options plus placeholder', () => {
+    it('renders all 6 category toggle buttons', () => {
       const wrapper = mount(QuestionForm)
-      const options = wrapper.findAll('option')
-      expect(options).toHaveLength(7) // 1 placeholder + 6 categories
+      const buttons = wrapper.findAll('button[type="button"]')
+      expect(buttons).toHaveLength(6)
     })
 
     it('shows validation error when submitting empty text', async () => {
@@ -25,20 +25,23 @@ describe('QuestionForm', () => {
       const wrapper = mount(QuestionForm)
       await wrapper.find('#question-text').setValue('Some question')
       await wrapper.find('form').trigger('submit')
-      expect(wrapper.text()).toContain('A category must be selected.')
+      expect(wrapper.text()).toContain('At least one category must be selected.')
     })
 
     it('emits save with form data on valid submit', async () => {
       const wrapper = mount(QuestionForm)
       await wrapper.find('#question-text').setValue('What is Vue?')
-      await wrapper.find('#question-category').setValue('Vue')
+      // Click the "Vue" toggle button
+      const toggleButtons = wrapper.findAll('button[type="button"]')
+      const vueBtn = toggleButtons.find((b) => b.text() === 'Vue')
+      await vueBtn.trigger('click')
       await wrapper.find('#question-notes').setValue('A framework')
       await wrapper.find('form').trigger('submit')
 
       expect(wrapper.emitted('save')).toHaveLength(1)
       expect(wrapper.emitted('save')[0][0]).toEqual({
         text: 'What is Vue?',
-        category: 'Vue',
+        categories: ['Vue'],
         notes: 'A framework',
       })
     })
@@ -46,11 +49,12 @@ describe('QuestionForm', () => {
     it('clears form after successful add', async () => {
       const wrapper = mount(QuestionForm)
       await wrapper.find('#question-text').setValue('Question')
-      await wrapper.find('#question-category').setValue('Frontend')
+      const toggleButtons = wrapper.findAll('button[type="button"]')
+      const frontendBtn = toggleButtons.find((b) => b.text() === 'Frontend')
+      await frontendBtn.trigger('click')
       await wrapper.find('form').trigger('submit')
 
       expect(wrapper.find('#question-text').element.value).toBe('')
-      expect(wrapper.find('#question-category').element.value).toBe('')
     })
 
     it('does not show cancel button in add mode', () => {
@@ -65,7 +69,7 @@ describe('QuestionForm', () => {
     const question = {
       id: '1',
       text: 'Existing question',
-      category: 'Backend',
+      categories: ['Backend'],
       notes: 'Some notes',
       createdAt: '2026-01-01T00:00:00.000Z',
     }
@@ -78,8 +82,11 @@ describe('QuestionForm', () => {
     it('pre-fills fields with question data', () => {
       const wrapper = mount(QuestionForm, { props: { mode: 'edit', question } })
       expect(wrapper.find('#question-text').element.value).toBe('Existing question')
-      expect(wrapper.find('#question-category').element.value).toBe('Backend')
       expect(wrapper.find('#question-notes').element.value).toBe('Some notes')
+      // Backend toggle button should be selected (has badge class rather than gray)
+      const toggleButtons = wrapper.findAll('button[type="button"]')
+      const backendBtn = toggleButtons.find((b) => b.text() === 'Backend')
+      expect(backendBtn.classes()).not.toContain('bg-gray-100')
     })
 
     it('shows cancel button in edit mode', () => {

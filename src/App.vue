@@ -83,7 +83,7 @@ function handleDeleteConfirm() {
 
       <QuestionList
         :questions="filteredQuestions"
-        :emptyMessage="activeFilter ? `No questions in the '${activeFilter}' category.` : undefined"
+        :emptyMessage="activeFilter ? `No questions in the \&quot;${activeFilter}\&quot; category.` : undefined"
         @edit="handleEdit"
         @delete="handleDeleteRequest"
       />

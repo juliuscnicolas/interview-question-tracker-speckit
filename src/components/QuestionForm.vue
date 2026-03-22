@@ -10,7 +10,7 @@ const props = defineProps({
 const emit = defineEmits(['save', 'cancel'])
 
 const text = ref('')
-const category = ref('')
+const categories = ref([])
 const notes = ref('')
 const errors = ref({})
 
@@ -19,17 +19,30 @@ watch(
   (q) => {
     if (q) {
       text.value = q.text
-      category.value = q.category
+      categories.value = Array.isArray(q.categories)
+        ? [...q.categories]
+        : q.category
+          ? [q.category]
+          : []
       notes.value = q.notes || ''
     }
   },
   { immediate: true }
 )
 
+function toggleCategory(value) {
+  const idx = categories.value.indexOf(value)
+  if (idx === -1) {
+    categories.value = [...categories.value, value]
+  } else {
+    categories.value = categories.value.filter((v) => v !== value)
+  }
+}
+
 function validate() {
   const errs = {}
   if (!text.value.trim()) errs.text = 'Question text is required.'
-  if (!category.value) errs.category = 'A category must be selected.'
+  if (categories.value.length === 0) errs.categories = 'At least one category must be selected.'
   errors.value = errs
   return Object.keys(errs).length === 0
 }
@@ -38,12 +51,12 @@ function handleSubmit() {
   if (!validate()) return
   emit('save', {
     text: text.value,
-    category: category.value,
+    categories: [...categories.value],
     notes: notes.value,
   })
   if (props.mode === 'add') {
     text.value = ''
-    category.value = ''
+    categories.value = []
     notes.value = ''
     errors.value = {}
   }
@@ -53,7 +66,7 @@ function handleCancel() {
   emit('cancel')
   if (props.mode === 'add') {
     text.value = ''
-    category.value = ''
+    categories.value = []
     notes.value = ''
     errors.value = {}
   }
@@ -82,21 +95,22 @@ function handleCancel() {
     </div>
 
     <div>
-      <label for="question-category" class="block text-sm font-medium text-gray-700 mb-1">
-        Category <span class="text-red-500">*</span>
-      </label>
-      <select
-        id="question-category"
-        v-model="category"
-        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        :class="{ 'border-red-500': errors.category }"
-      >
-        <option value="" disabled>Select a category</option>
-        <option v-for="cat in CATEGORIES" :key="cat.value" :value="cat.value">
+      <span class="block text-sm font-medium text-gray-700 mb-1">
+        Categories <span class="text-red-500">*</span>
+      </span>
+      <div class="flex flex-wrap gap-2" :class="{ 'ring-2 ring-red-500 rounded-md p-1': errors.categories }">
+        <button
+          v-for="cat in CATEGORIES"
+          :key="cat.value"
+          type="button"
+          @click.prevent="toggleCategory(cat.value)"
+          class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-colors cursor-pointer"
+          :class="categories.includes(cat.value) ? cat.badgeClass : 'bg-gray-100 text-gray-500 hover:bg-gray-200'"
+        >
           {{ cat.label }}
-        </option>
-      </select>
-      <p v-if="errors.category" class="text-red-500 text-xs mt-1">{{ errors.category }}</p>
+        </button>
+      </div>
+      <p v-if="errors.categories" class="text-red-500 text-xs mt-1">{{ errors.categories }}</p>
     </div>
 
     <div>
