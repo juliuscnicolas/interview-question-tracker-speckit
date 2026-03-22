@@ -18,14 +18,18 @@ function formatDate(isoString) {
 
 <template>
   <div class="bg-white rounded-lg shadow p-4 sm:p-6 space-y-3">
-    <div class="flex items-start justify-between gap-3">
-      <p class="text-gray-900 font-medium break-words min-w-0 flex-1">{{ question.text }}</p>
-      <span
-        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium shrink-0"
-        :class="getCategoryBadgeClass(question.category)"
-      >
-        {{ question.category }}
-      </span>
+    <div class="space-y-2">
+      <p class="text-gray-900 font-medium break-words">{{ question.text }}</p>
+      <div class="flex flex-wrap gap-1">
+        <span
+          v-for="cat in question.categories"
+          :key="cat"
+          class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+          :class="getCategoryBadgeClass(cat)"
+        >
+          {{ cat }}
+        </span>
+      </div>
     </div>
 
     <p v-if="question.notes" class="text-gray-600 text-sm break-words">{{ question.notes }}</p>

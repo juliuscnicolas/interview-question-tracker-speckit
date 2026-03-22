@@ -27,11 +27,11 @@
 
 **⚠️ CRITICAL**: The `useQuestions` composable owns the data shape. All user stories depend on `categories` being an array.
 
-- [ ] T001 Add `normalizeQuestion` function to `src/composables/useQuestions.js` that converts old `category` string field to `categories` array (if `category` is a string and `categories` is absent, set `categories: [category]` and delete `category`)
-- [ ] T002 Apply `normalizeQuestion` to all questions on read from localStorage in `src/composables/useQuestions.js` by mapping over the raw `questions.value` array after initialization
-- [ ] T003 Update `addQuestion` in `src/composables/useQuestions.js` to accept `categories` array parameter instead of single `category` string, validate that `categories` is a non-empty array and every value exists in `CATEGORIES`, and store `categories` on the question object
-- [ ] T004 Update `updateQuestion` in `src/composables/useQuestions.js` to accept `categories` array parameter instead of single `category` string, validate the array, and store `categories` on the question object
-- [ ] T005 Update `filteredQuestions` computed property in `src/composables/useQuestions.js` to change filter predicate from `q.category === activeFilter.value` to `q.categories.includes(activeFilter.value)`
+- [X] T001 Add `normalizeQuestion` function to `src/composables/useQuestions.js` that converts old `category` string field to `categories` array (if `category` is a string and `categories` is absent, set `categories: [category]` and delete `category`)
+- [X] T002 Apply `normalizeQuestion` to all questions on read from localStorage in `src/composables/useQuestions.js` by mapping over the raw `questions.value` array after initialization
+- [X] T003 Update `addQuestion` in `src/composables/useQuestions.js` to accept `categories` array parameter instead of single `category` string, validate that `categories` is a non-empty array and every value exists in `CATEGORIES`, and store `categories` on the question object
+- [X] T004 Update `updateQuestion` in `src/composables/useQuestions.js` to accept `categories` array parameter instead of single `category` string, validate the array, and store `categories` on the question object
+- [X] T005 Update `filteredQuestions` computed property in `src/composables/useQuestions.js` to change filter predicate from `q.category === activeFilter.value` to `q.categories.includes(activeFilter.value)`
 
 **Checkpoint**: Composable now uses `categories` array throughout. All CRUD operations and filtering work with the new data model. Old localStorage data is normalized on read.
 
@@ -45,13 +45,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T006 [US1] Replace `const category = ref('')` with `const categories = ref([])` in `src/components/QuestionForm.vue` and add a `toggleCategory(value)` function that adds/removes values from the array
-- [ ] T007 [US1] Update `validate()` in `src/components/QuestionForm.vue` to check `categories.value.length > 0` instead of `!category.value`, with error message "At least one category must be selected."
-- [ ] T008 [US1] Update `handleSubmit()` in `src/components/QuestionForm.vue` to emit `categories: [...categories.value]` instead of `category: category.value`, and reset `categories.value = []` after add
-- [ ] T009 [US1] Update `handleCancel()` in `src/components/QuestionForm.vue` to reset `categories.value = []` instead of `category.value = ''`
-- [ ] T010 [US1] Replace the `<select>` dropdown in `src/components/QuestionForm.vue` template with a `flex flex-wrap gap-2` container of `<button>` elements for each category from `CATEGORIES`, applying selected styling (category `badgeClass`) when `categories.includes(cat.value)` and unselected styling (`bg-gray-100 text-gray-500`) otherwise, with `@click.prevent="toggleCategory(cat.value)"` on each button
-- [ ] T011 [P] [US1] Update `src/components/QuestionCard.vue` to replace the single category `<span>` badge with a `v-for` loop over `question.categories`, rendering each as an individual badge with `getCategoryBadgeClass(cat)`, wrapped in a `flex flex-wrap gap-1` container
-- [ ] T012 [US1] Update `src/App.vue` empty filter message from `` `No questions in the '${activeFilter}' category.` `` to `` `No questions in the "${activeFilter}" category.` `` (minor — ensures consistency; no functional change needed since filter is still single-select)
+- [X] T006 [US1] Replace `const category = ref('')` with `const categories = ref([])` in `src/components/QuestionForm.vue` and add a `toggleCategory(value)` function that adds/removes values from the array
+- [X] T007 [US1] Update `validate()` in `src/components/QuestionForm.vue` to check `categories.value.length > 0` instead of `!category.value`, with error message "At least one category must be selected."
+- [X] T008 [US1] Update `handleSubmit()` in `src/components/QuestionForm.vue` to emit `categories: [...categories.value]` instead of `category: category.value`, and reset `categories.value = []` after add
+- [X] T009 [US1] Update `handleCancel()` in `src/components/QuestionForm.vue` to reset `categories.value = []` instead of `category.value = ''`
+- [X] T010 [US1] Replace the `<select>` dropdown in `src/components/QuestionForm.vue` template with a `flex flex-wrap gap-2` container of `<button>` elements for each category from `CATEGORIES`, applying selected styling (category `badgeClass`) when `categories.includes(cat.value)` and unselected styling (`bg-gray-100 text-gray-500`) otherwise, with `@click.prevent="toggleCategory(cat.value)"` on each button
+- [X] T011 [P] [US1] Update `src/components/QuestionCard.vue` to replace the single category `<span>` badge with a `v-for` loop over `question.categories`, rendering each as an individual badge with `getCategoryBadgeClass(cat)`, wrapped in a `flex flex-wrap gap-1` container
+- [X] T012 [US1] Update `src/App.vue` empty filter message from `` `No questions in the '${activeFilter}' category.` `` to `` `No questions in the "${activeFilter}" category.` `` (minor — ensures consistency; no functional change needed since filter is still single-select)
 
 **Checkpoint**: Users can add questions with multiple categories. Question cards show multiple badges. This is the MVP.
 
@@ -65,7 +65,7 @@
 
 ### Implementation for User Story 2
 
-- [ ] T013 [US2] Update the `watch(() => props.question, ...)` in `src/components/QuestionForm.vue` to populate `categories.value` from the question — handle both `question.categories` (array) and legacy `question.category` (string) by normalizing to an array
+- [X] T013 [US2] Update the `watch(() => props.question, ...)` in `src/components/QuestionForm.vue` to populate `categories.value` from the question — handle both `question.categories` (array) and legacy `question.category` (string) by normalizing to an array
 
 **Checkpoint**: Edit form pre-populates category toggles. Editing categories works for both new-format and old-format questions.
 
@@ -79,7 +79,7 @@
 
 ### Implementation for User Story 3
 
-- [ ] T014 [US3] Verify that the filter predicate change in T005 (`q.categories.includes(activeFilter.value)`) correctly surfaces multi-category questions when any one of their categories matches the active filter — no additional code changes expected; this task is a validation step
+- [X] T014 [US3] Verify that the filter predicate change in T005 (`q.categories.includes(activeFilter.value)`) correctly surfaces multi-category questions when any one of their categories matches the active filter — no additional code changes expected; this task is a validation step
 
 **Checkpoint**: Filtering works correctly with multi-category data. No UI changes needed in `CategoryFilter.vue`.
 
@@ -93,7 +93,7 @@
 
 ### Implementation for User Story 4
 
-- [ ] T015 [US4] Verify that the `normalizeQuestion` function from T001-T002 correctly handles all edge cases: missing `categories` field with `category` string present, already-migrated data with `categories` array, and questions with both fields (prefer `categories` array) — no additional code changes expected; this task is a validation step
+- [X] T015 [US4] Verify that the `normalizeQuestion` function from T001-T002 correctly handles all edge cases: missing `categories` field with `category` string present, already-migrated data with `categories` array, and questions with both fields (prefer `categories` array) — no additional code changes expected; this task is a validation step
 
 **Checkpoint**: Old data loads, displays, and saves correctly. No manual migration required.
 
@@ -103,9 +103,9 @@
 
 **Purpose**: Final validation and cleanup
 
-- [ ] T016 Run `npm test` to verify all existing tests still pass after changes in `src/composables/useQuestions.js`, `src/components/QuestionForm.vue`, `src/components/QuestionCard.vue`, and `src/App.vue`
-- [ ] T017 Run `npm run build` to verify production build succeeds with no errors
-- [ ] T018 Run quickstart.md validation: start dev server with `npm run dev`, manually add a question with multiple categories, edit it, filter by category, and verify badges display correctly on mobile viewport (320px width)
+- [X] T016 Run `npm test` to verify all existing tests still pass after changes in `src/composables/useQuestions.js`, `src/components/QuestionForm.vue`, `src/components/QuestionCard.vue`, and `src/App.vue`
+- [X] T017 Run `npm run build` to verify production build succeeds with no errors
+- [X] T018 Run quickstart.md validation: start dev server with `npm run dev`, manually add a question with multiple categories, edit it, filter by category, and verify badges display correctly on mobile viewport (320px width)
 
 ---
 

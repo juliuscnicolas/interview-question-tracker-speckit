@@ -4,32 +4,50 @@ import { CATEGORIES } from '../constants/categories'
 
 const STORAGE_KEY = 'interview-questions'
 
+function normalizeQuestion(q) {
+  if (Array.isArray(q.categories)) return q
+  if (typeof q.category === 'string') {
+    const { category, ...rest } = q
+    return { ...rest, categories: [category] }
+  }
+  return { ...q, categories: [] }
+}
+
 export function useQuestions() {
   const questions = useLocalStorage(STORAGE_KEY, [])
   const activeFilter = ref(null)
   const storageError = ref(null)
+
+  // Normalize legacy single-category data on read
+  const raw = questions.value
+  if (raw.length > 0 && raw.some((q) => !Array.isArray(q.categories))) {
+    questions.value = raw.map(normalizeQuestion)
+  }
 
   const filteredQuestions = computed(() => {
     const sorted = [...questions.value].sort(
       (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     )
     if (!activeFilter.value) return sorted
-    return sorted.filter((q) => q.category === activeFilter.value)
+    return sorted.filter((q) => q.categories.includes(activeFilter.value))
   })
 
-  function addQuestion({ text, category, notes }) {
+  function addQuestion({ text, categories, notes }) {
     const trimmedText = stripHtml(text).trim()
     const trimmedNotes = notes ? stripHtml(notes).trim() : ''
 
     if (!trimmedText) throw new Error('Question text is required.')
-    if (!CATEGORIES.some((c) => c.value === category)) {
-      throw new Error('A valid category must be selected.')
+    if (!Array.isArray(categories) || categories.length === 0) {
+      throw new Error('At least one category must be selected.')
+    }
+    if (!categories.every((cat) => CATEGORIES.some((c) => c.value === cat))) {
+      throw new Error('All categories must be valid.')
     }
 
     const question = {
       id: crypto.randomUUID(),
       text: trimmedText,
-      category,
+      categories: [...categories],
       notes: trimmedNotes,
       createdAt: new Date().toISOString(),
     }
@@ -43,19 +61,22 @@ export function useQuestions() {
     }
   }
 
-  function updateQuestion(id, { text, category, notes }) {
+  function updateQuestion(id, { text, categories, notes }) {
     const trimmedText = stripHtml(text).trim()
     const trimmedNotes = notes ? stripHtml(notes).trim() : ''
 
     if (!trimmedText) throw new Error('Question text is required.')
-    if (!CATEGORIES.some((c) => c.value === category)) {
-      throw new Error('A valid category must be selected.')
+    if (!Array.isArray(categories) || categories.length === 0) {
+      throw new Error('At least one category must be selected.')
+    }
+    if (!categories.every((cat) => CATEGORIES.some((c) => c.value === cat))) {
+      throw new Error('All categories must be valid.')
     }
 
     try {
       questions.value = questions.value.map((q) =>
         q.id === id
-          ? { ...q, text: trimmedText, category, notes: trimmedNotes }
+          ? { ...q, text: trimmedText, categories: [...categories], notes: trimmedNotes }
           : q
       )
       storageError.value = null

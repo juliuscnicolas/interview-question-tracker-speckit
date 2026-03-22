@@ -5,7 +5,7 @@ import QuestionCard from './QuestionCard.vue'
 const question = {
   id: '1',
   text: 'What is reactivity?',
-  category: 'Vue',
+  categories: ['Vue'],
   notes: 'Core concept in Vue',
   createdAt: '2026-03-15T10:00:00.000Z',
 }
@@ -18,7 +18,18 @@ describe('QuestionCard', () => {
 
   it('displays category badge', () => {
     const wrapper = mount(QuestionCard, { props: { question } })
-    expect(wrapper.find('.rounded-full').text()).toBe('Vue')
+    const badges = wrapper.findAll('.rounded-full')
+    expect(badges).toHaveLength(1)
+    expect(badges[0].text()).toBe('Vue')
+  })
+
+  it('displays multiple category badges', () => {
+    const multiCat = { ...question, categories: ['Vue', 'Frontend'] }
+    const wrapper = mount(QuestionCard, { props: { question: multiCat } })
+    const badges = wrapper.findAll('.rounded-full')
+    expect(badges).toHaveLength(2)
+    expect(badges[0].text()).toBe('Vue')
+    expect(badges[1].text()).toBe('Frontend')
   })
 
   it('displays notes when present', () => {
